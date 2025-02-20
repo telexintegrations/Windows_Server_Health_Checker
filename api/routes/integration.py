@@ -56,8 +56,7 @@ async def integration(request: Request):
                 "default": "* * * * *",
             }
         ],
-        "tick_url": f"{base_url}/tick",
-        # "target_url": telex_channel_webhook,
+        "tick_url": f"{base_url}/api/v1/health",
     }
     return JSONResponse(
         status_code=status.HTTP_200_OK, content={"data": payload}

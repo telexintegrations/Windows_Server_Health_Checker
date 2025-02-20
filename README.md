@@ -120,7 +120,7 @@ This project is a FastAPI-based application that connects to a Windows Server us
                     "default": "* * * * *",
                 }
             ],
-            "tick_url": f"{base_url}/tick",
+            "tick_url": f"{base_url}/api/v1/health",
     }
 
    ```
