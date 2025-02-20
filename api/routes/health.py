@@ -48,7 +48,8 @@ async def check_server_health(payload: MonitorPayload):
             "Get-WmiObject -class Win32_Processor | Select-Object -Property LoadPercentage",
             "Get-WmiObject -class Win32_OperatingSystem | Select-Object -Property FreePhysicalMemory, TotalVisibleMemorySize",
             "Get-WmiObject -class Win32_LogicalDisk | Select-Object -Property DeviceID, FreeSpace, Size",
-            "Get-NetAdapter | Select-Object -Property Name, Status, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed"
+            "Get-NetAdapter | Select-Object -Property Name, Status, LinkSpeed, ReceiveLinkSpeed, TransmitLinkSpeed",
+            # "Get-Counter -Counter \"\\Network Interface(*)\\Packets Sent/sec\", \"\\Network Interface(*)\\Packets Received/sec\"",
         ]
 
         output_dict = {}
@@ -80,13 +81,41 @@ async def check_server_health(payload: MonitorPayload):
                 output_dict["Logical Disks"] = disks
             elif "Get-NetAdapter" in command:
                 lines = output.splitlines()[:]
-                output_dict["Network Traffic"] = {
+                output_dict["Network Adapter"] = {
                     "Name": lines[0].split(":")[1].strip(),
                     "Status": lines[1].split(":")[1].strip(),
                     "LinkSpeed": lines[2].split(":")[1].strip(),
                     "ReceiveLinkSpeed": f"{int(lines[3].split(':')[1].strip()) / 1_000_000_000:.2f} Gbps",
                     "TransmitLinkSpeed": f"{int(lines[4].split(':')[1].strip()) / 1_000_000_000:.2f} Gbps"
                 }
+            # elif "Get-Counter" in command:
+            #     lines = output.splitlines()[2:]
+            #     packets_sent = 0
+            #     packets_received = 0
+            #     for line in lines:
+            #         parts = line.split()
+            #         if "Packets Sent/sec" in parts[0]:
+            #             packets_sent += int(parts[1])
+            #         elif "Packets Received/sec" in parts[0]:
+            #             packets_received += int(parts[1])
+            #     output_dict["Network Packets"] = {
+            #         "Packets Sent/sec": packets_sent,
+            #         "Packets Received/sec": packets_received
+            #     }
+            # elif "Get-Counter" in command:
+            #     lines = output.splitlines()[2:]
+            #     print("Network traffic: " + str(lines))
+            #     network_traffic = {}
+            #     for i in range(0, len(lines), 3):
+            #         interface_name = lines[i].split("\\")[2].split("(")[1].split(")")[0]
+            #         packets_sent = lines[i+1].split(":")[1].strip()
+            #         packets_received = lines[i+2].split(":")[1].strip()
+            #         network_traffic[interface_name] = {
+            #             "Packets Sent/sec": packets_sent,
+            #             "Packets Received/sec": packets_received
+            #         }
+            #     output_dict["Network Traffic"] = network_traffic
+
 
         ssh.close()
         print("Connection closed")
