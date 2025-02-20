@@ -81,10 +81,10 @@ This project is a FastAPI-based application that connects to a Windows Server us
                 "app_name": "Windows Server Health Checker",
                 "app_description": "Monitor the performance of a Windows Server",
                 "app_logo": "https://i.imgur.com/bRoRB1Y.png",
-                "app_url": f"{base_url}",
+                "app_url": "base_url",
                 "background_color": "#fff"
             },
-            "is_active": False,
+            "is_active": false,
             "integration_type": "interval",
             "key_features": [
                 "- Monitor the performance of a Windows Server",
@@ -93,34 +93,34 @@ This project is a FastAPI-based application that connects to a Windows Server us
             ],
             "integration_category": "Monitoring & Logging",
             "author": "Chidubem Nwabuisi",
-            "website": f"{base_url}",
+            "website": "base_url",
             "settings": [
                 {
                     "label": "Server_IP",
                     "type": "text",
-                    "required": True,
+                    "required": true,
                     "default": "",
                 },
                 {
                     "label": "username",
                     "type": "text",
-                    "required": True,
+                    "required": true,
                     "default": "",
                 },
                 {
                     "label": "password",
                     "type": "text",
-                    "required": True,
+                    "required": true,
                     "default": "",
                 },
                 {
                     "label": "interval",
                     "type": "text",
-                    "required": True,
+                    "required": true,
                     "default": "* * * * *",
                 }
             ],
-            "tick_url": f"{base_url}/api/v1/health",
+            "tick_url": "<host_base_url>/api/v1/health",
     }
 
    ```
