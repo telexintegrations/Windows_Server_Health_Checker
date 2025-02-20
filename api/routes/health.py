@@ -94,7 +94,7 @@ async def check_server_health(payload: MonitorPayload):
             "status": "success"
         }
 
-        response = await client.post(payload.return_url, json={"output": data})
+        response = await client.post(payload.return_url, json=data)
         print(response.status_code)
         print(response.json())
 
