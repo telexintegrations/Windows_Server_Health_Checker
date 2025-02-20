@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from typing import List
 import paramiko
 import httpx
+import socket
 
 
 # Define the models for the request and response payloads
@@ -37,19 +38,58 @@ router = APIRouter()
 
 async def check_server_health(payload: MonitorPayload):
 
-    # Implement the function here
+    # Create an SSH client
     ssh = paramiko.SSHClient()
     # This will automatically add the server to the known_hosts file
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-    # Extract the settings from the payload
-    server_ip = payload.settings[0].default
-    username = payload.settings[1].default
-    password = payload.settings[2].default
+    # Get the server_ip, username and password from the payload
+    settings_dict = {setting.label.lower(
+    ): setting.default for setting in payload.settings}
+    server_ip = settings_dict.get("server_ip")
+    username = settings_dict.get("username")
+    password = settings_dict.get("password")
 
     print(f"Connecting to {server_ip}")
-    ssh.connect(server_ip, username=username, password=password)
-    print("Connected to the server")
+    # Try to connect to the server and handle any errors
+    try:
+        ssh.connect(server_ip, username=username, password=password)
+        print("Connected to the server")
+
+    # Handle authentication errors
+    except paramiko.AuthenticationException as e:
+        print("Authentication failed")
+        # send error message to the telex return_url
+        async with httpx.AsyncClient() as client:
+            data = {
+                "message": "Authentication failed. Please check the username and password",
+                "username": "Windows Server Health Checker",
+                "event_name": "Server Health Check",
+                "status": "error"
+            }
+            response = await client.post(payload.return_url, json=data)
+            print(response.status_code)
+            print(response.json())
+            return
+        
+    # Handle connection Timeout errors
+    except (TimeoutError, socket.timeout) as e:
+        print("Connection timed out to Windows server")
+
+        # send error message to the telex return_url
+        async with httpx.AsyncClient() as client:
+            data = {
+                "message": "Connection timed out. Check the server IP and ensure that SSH is enabled",
+                "username": "Windows Server Health Checker",
+                "event_name": "Server Health Check",
+                "status": "error"
+            }
+            response = await client.post(payload.return_url, json=data)
+            print(response.status_code)
+            print(response.json())
+            return
+
+
 
     # Commands to check the server health
     commands = [
