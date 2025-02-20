@@ -57,6 +57,7 @@ async def integration(request: Request):
             }
         ],
         "tick_url": f"{base_url}/api/v1/health",
+        "target_url": "",
     }
     return JSONResponse(
         status_code=status.HTTP_200_OK, content={"data": payload}
