@@ -152,15 +152,32 @@ async def check_server_health(payload: MonitorPayload):
             print(response.json())
             return
 
+    # Handle every other error
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        # send error message to the telex return_url
+        async with httpx.AsyncClient() as client:
+            data = {
+                "message": f"An unexpected error occurred: {e}",
+                "username": "Windows Server Health Checker",
+                "event_name": "Server Health Check",
+                "status": "error"
+            }
+            response = await client.post(payload.return_url, json=data)
+            print(response.status_code)
+            print(response.json())
+            return
+
     # Send the output to the return_url
     async with httpx.AsyncClient() as client:
 
         # convert the output list to a string
         output_list = []
         for key, value in output_dict.items():
-            if isinstance(value, list):
-                output_list.append(f"{key}:")
-                for item in value:
+            print(key, value)
+            if isinstance(value, list): # check if the value is a list
+                output_list.append(f"{key}:") 
+                for item in value: # loop through the list and add each item to the output list
                     output_list.append(f"    {item}")
             else:
                 output_list.append(f"{key}: {value}")
