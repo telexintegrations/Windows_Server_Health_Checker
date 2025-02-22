@@ -16,7 +16,7 @@ async def integration(request: Request):
         "descriptions": {
             "app_name": "Windows Server Health Checker",
             "app_description": "Monitor the performance of a Windows Server",
-            "app_logo": "https://i.imgur.com/bRoRB1Y.png",
+            "app_logo": "https://newbucketdubem.s3.eu-north-1.amazonaws.com/windows-server-blue.jpg",
             "app_url": f"{base_url}",
             "background_color": "#fff"
         },
