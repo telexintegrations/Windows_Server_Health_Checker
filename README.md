@@ -166,19 +166,10 @@ This project is a FastAPI-based application that connects to a Windows Server us
 
 ## Testing
 
-1. **Install the testing dependencies:**
-
-   ```sh
-   pip install pytest
-   ```
-
-2. **Run the tests:**
-
-   ```sh
-   pytest
-   ```
-
-   This will execute the test cases and provide you with the results.
+1. Ensure SSH is installed on the windows server. Follow guide [here](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse?tabs=gui&pivots=windows-server-2025)
+2. Ensure Windows Server is on the same network with you.
+3. Alternatively you can setup a windows server on any Virtualbox or VMware then test locally.
+4. Ensure user has administrative privileges.
 
 ## Deployment
 
