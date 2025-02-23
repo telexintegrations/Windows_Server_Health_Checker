@@ -164,6 +164,13 @@ This project is a FastAPI-based application that connects to a Windows Server us
    }
    ```
 
+   On Telex you should expect the following response upon successful connection to the server
+![Telex Successful integration](https://github.com/user-attachments/assets/f3e6b36c-1335-4df0-a01b-56c083cc1a99)
+
+If there are problems while connecting to the server, you will get notified on Telex as seen below
+![Error Messages from Telex](https://github.com/user-attachments/assets/5e871332-bb17-4d35-bb57-8061d068775a)
+
+
 ## Testing
 
 1. Ensure SSH is installed on the windows server. Follow guide [here](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse?tabs=gui&pivots=windows-server-2025)
