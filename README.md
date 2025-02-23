@@ -125,7 +125,7 @@ This project is a FastAPI-based application that connects to a Windows Server us
 
    ```
 
-3. **Send a POST request to the `/health` endpoint to test integration to call to Telex:**
+3. **Send a POST request to the `/api/v1/health` endpoint to test integration to call to Telex:**
 
    You can use tools like `curl`, `Postman`, or any HTTP client to send a POST request to the `/health` endpoint with the required payload.
 
@@ -133,8 +133,8 @@ This project is a FastAPI-based application that connects to a Windows Server us
 
    ```json
    {
-   	"channel_id": "your_telex_channel_id",
-   	"return_url": "https://ping.telex.im/v1/return/<your-test-telex-channel-id>",
+   	"channel_id": "telex_channel_id",
+   	"return_url": "https://ping.telex.im/v1/return/<telex-channel-id>",
    	"settings": [
    		{
    			"label": "server_ip",
