@@ -24,8 +24,11 @@ async def integration(request: Request):
         "integration_type": "interval",
         "key_features": [
             "- Monitor the performance of a Windows Server",
-            "- NB: This integration is only for Windows Servers"
-            "- NB: Ensure that SSH is enabled on the Windows Server"
+            "- Most suitable for local network integration",
+            "- NB: This integration is only for Windows Servers",
+            "- NB: Ensure that SSH is enabled on the Windows Server",
+            "- NB: Setup Telex locally and ensure the windows server is within the same network",
+            
         ],
         "integration_category": "Monitoring & Logging",
         "author": "Chidubem Nwabuisi",
